@@ -1,0 +1,5 @@
+# Create Applications
+  nx g @nx/nest:app my-nest-app
+
+# Create Libraries
+  nx g @nx/nest:lib my-nest-lib

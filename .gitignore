@@ -8,6 +8,16 @@ tmp
 # dependencies
 node_modules
 
+# yarn
+.pnp.*
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # IDEs and editors
 /.idea
 .project
@@ -39,3 +49,6 @@ testem.log
 Thumbs.db
 
 .nx/cache
+
+# dotenv
+.env*
