@@ -17,6 +17,7 @@ node_modules
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+yarn.lock
 
 # IDEs and editors
 /.idea
