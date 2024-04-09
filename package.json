@@ -4,7 +4,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "yarn nx run-many --target=serve --all --parallel"
+    "dev": "yarn nx run-many --target=serve --all --parallel",
+    "nx:reset": "yarn nx reset",
+    "nx:add:nest:app": "yarn nx generate @nx/nest:app",
+    "nx:add:js:lib": "yarn nx generate @nx/js:lib",
+    "nx:remove": "yarn nx generate remove"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.1",
