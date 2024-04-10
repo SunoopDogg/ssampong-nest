@@ -1,3 +1,35 @@
 {
-  "singleQuote": true
+  "endOfLine": "lf",
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "printWidth": 100
+      }
+    }
+  ],
+  "importOrder": [
+    "^@nestjs/(.*)$",
+    "^~(.+)$",
+    "^[./]",
+    "^[a-zA-Z@/\\-]*\\.[a-zA-Z0-9]*$",
+    "^(.+)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": [
+    "typescript",
+    "classProperties",
+    "decorators-legacy"
+  ],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

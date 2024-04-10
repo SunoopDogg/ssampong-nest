@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'ssampong-nest',
+  displayName: 'auth',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/ssampong-nest',
+  coverageDirectory: '../../coverage/apps/auth',
 };
