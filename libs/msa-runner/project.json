@@ -1,0 +1,9 @@
+{
+  "name": "msa-runner",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/msa-runner/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project msa-runner --web",
+  "targets": {}
+}

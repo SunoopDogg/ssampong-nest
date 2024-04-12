@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ssampong-nest/nest-runner": ["libs/nest-runner/src/index.ts"]
+      "@ssampong-nest/msa-runner": ["libs/msa-runner/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
