@@ -1,41 +1,123 @@
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 
-export const getNestProjectList = (): string[] => {
-  return process.env['MICROSERVICE_LIST']?.split(', ') || [];
+const getMsaAppList = (): string[] => {
+  const envConfig = dotenv.parse(fs.readFileSync('.env'));
+  const result = envConfig['MSA_APP_LIST'] || '';
+
+  return result.split(', ');
 };
 
-export const createCommand = (project: string): string => {
-  return `yarn nx serve ${project}`;
+const isAppExist = (app: string): boolean => {
+  return fs.existsSync(`apps/${app}`);
 };
 
-export const runCommand = async (command: string): Promise<void> => {
-  const child = await exec(command);
+const isEnvExist = (app: string): boolean => {
+  return fs.existsSync(`apps/${app}/.env`);
+};
 
-  child.stdout?.on('data', (data) => {
-    console.log(data);
+const createEnv = (app: string): void => {
+  fs.writeFileSync(`apps/${app}/.env`, '');
+};
+
+const updateEnvPort = (app: string, port: number): void => {
+  const envConfig = dotenv.parse(fs.readFileSync(`apps/${app}/.env`));
+  envConfig['PORT'] = port.toString();
+
+  const envConfigString = Object.keys(envConfig).map((key) => {
+    return `${key}=${envConfig[key]}`;
+  });
+
+  fs.writeFileSync(`apps/${app}/.env`, envConfigString.join('\n'));
+};
+
+const updateGatewayEnv = (
+  app: string,
+  port: number,
+  mapAppToPort: Map<string, number>,
+): void => {
+  const envConfig = dotenv.parse(fs.readFileSync(`apps/${app}/.env`));
+  envConfig['PORT'] = port.toString();
+
+  const msaAppList = getMsaAppList();
+  const msaAppListString = msaAppList
+    .map((app) => {
+      return `${app}`;
+    })
+    .join(', ');
+  const msaPortListString = msaAppList
+    .map((app) => {
+      return `${mapAppToPort.get(app)}`;
+    })
+    .join(', ');
+
+  envConfig['MSA_APP_LIST'] = msaAppListString;
+  envConfig['MSA_PORT_LIST'] = msaPortListString;
+
+  const envConfigString = Object.keys(envConfig).map((key) => {
+    return `${key}=${envConfig[key]}`;
+  });
+
+  fs.writeFileSync(`apps/${app}/.env`, envConfigString.join('\n'));
+};
+
+const createCommand = (appList: string[]): string => {
+  let command = `yarn nx run-many --target=serve --projects=`;
+
+  appList.forEach((project) => {
+    command += `${project},`;
+  });
+
+  return command.slice(0, -1);
+};
+
+const runCommand = (command: string): void => {
+  const child = spawn(command, {
+    shell: true,
+  });
+
+  child.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  child.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  child.on('error', (error) => {
+    console.error(`error: ${error.message}`);
+  });
+
+  child.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
   });
 };
 
-export class NestRunner {
-  private static PORT = 5000;
-  private static MAP_PROJECT_PORT: { [key: string]: number } = {};
+const run = (): void => {
+  let port = 5000;
 
-  public static async run(): Promise<void> {
-    const projectList = getNestProjectList();
+  const masAppList = getMsaAppList();
+  const mapProjectToPort = new Map<string, number>();
 
-    for (const project of projectList) {
-      const command = createCommand(project);
-      await runCommand(command);
-
-      this.MAP_PROJECT_PORT[project] = this.PORT;
-      this.PORT++;
+  masAppList.forEach((app) => {
+    if (!isAppExist(app)) {
+      console.error(`App ${app} does not exist`);
+      return;
     }
-  }
 
-  public static getPort(project: string): number {
-    return this.MAP_PROJECT_PORT[project];
-  }
-}
+    if (!isEnvExist(app)) createEnv(app);
+    updateEnvPort(app, port);
+    mapProjectToPort.set(app, port);
+    port += 1;
+  });
 
-NestRunner.run();
-console.log(NestRunner.getPort('auth'));
+  const gateway = dotenv.parse(fs.readFileSync('.env'))['MSA_GATEWAY_APP'];
+  if (!isEnvExist(gateway)) createEnv(gateway);
+  updateGatewayEnv(gateway, 4000, mapProjectToPort);
+
+  const command = createCommand([gateway, ...masAppList]);
+  runCommand(command);
+};
+
+run();
