@@ -4,7 +4,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "yarn nx run-many --target=serve --all --parallel",
+    "dev": "yarn nx serve api-gateway",
+    "msa:build": "yarn tsc libs/msa-runner/src/lib/msa-runner.ts",
+    "msa:run": "yarn node libs/msa-runner/src/lib/msa-runner.js",
+    "nx:run-many": "yarn nx run-many --target=serve --all --parallel",
     "nx:reset": "yarn nx reset",
     "nx:add:nest:app": "yarn nx generate @nx/nest:app",
     "nx:add:js:lib": "yarn nx generate @nx/js:lib",
@@ -47,6 +50,7 @@
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
     "axios": "^1.6.0",
+    "dotenv": "^16.4.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0"
