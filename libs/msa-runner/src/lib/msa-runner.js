@@ -67,16 +67,16 @@ var runCommand = function (command) {
         shell: true,
     });
     child.stdout.on('data', function (data) {
-        console.log("stdout: ".concat(data));
+        console.log("".concat(data).trim());
     });
     child.stderr.on('data', function (data) {
-        console.error("stderr: ".concat(data));
+        console.error("".concat(data).trim());
     });
     child.on('error', function (error) {
-        console.error("error: ".concat(error.message));
+        console.error("".concat(error.message));
     });
     child.on('close', function (code) {
-        console.log("child process exited with code ".concat(code));
+        console.log("".concat(code));
     });
 };
 var run = function () {

@@ -78,19 +78,19 @@ const runCommand = (command: string): void => {
   });
 
   child.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    console.log(`${data}`.trim());
   });
 
   child.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
+    console.error(`${data}`.trim());
   });
 
   child.on('error', (error) => {
-    console.error(`error: ${error.message}`);
+    console.error(`${error.message}`);
   });
 
   child.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`${code}`);
   });
 };
 
