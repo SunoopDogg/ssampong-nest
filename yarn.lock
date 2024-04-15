@@ -2698,6 +2698,8 @@ __metadata:
     jest: "npm:^29.4.1"
     jest-environment-node: "npm:^29.4.1"
     nx: "npm:18.2.3"
+    passport-jwt: "npm:^4.0.1"
+    passport-local: "npm:^1.0.0"
     prettier: "npm:^2.6.2"
     reflect-metadata: "npm:^0.1.13"
     rxjs: "npm:^7.8.0"
@@ -7711,7 +7713,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:9.0.2":
+"jsonwebtoken@npm:9.0.2, jsonwebtoken@npm:^9.0.0":
   version: 9.0.2
   resolution: "jsonwebtoken@npm:9.0.2"
   dependencies:
@@ -8970,6 +8972,32 @@ __metadata:
   version: 1.3.3
   resolution: "parseurl@npm:1.3.3"
   checksum: 10c0/90dd4760d6f6174adb9f20cf0965ae12e23879b5f5464f38e92fce8073354341e4b3b76fa3d878351efe7d01e617121955284cfd002ab087fba1a0726ec0b4f5
+  languageName: node
+  linkType: hard
+
+"passport-jwt@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "passport-jwt@npm:4.0.1"
+  dependencies:
+    jsonwebtoken: "npm:^9.0.0"
+    passport-strategy: "npm:^1.0.0"
+  checksum: 10c0/d7e2b472d399f596a1db31310f8e63d10777ab7468b9a378c964156e5f0a772598b007417356ead578cfdaf60dc2bba39a55f0033ca865186fdb2a2b198e2e7e
+  languageName: node
+  linkType: hard
+
+"passport-local@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "passport-local@npm:1.0.0"
+  dependencies:
+    passport-strategy: "npm:1.x.x"
+  checksum: 10c0/59becb988014921a5d6056470d9373c41db452fcf113323064f39d53baa6f184e72151bf269ca6770511f7f0260e13632dacc7b6afdbf60ebf63e90327e186d4
+  languageName: node
+  linkType: hard
+
+"passport-strategy@npm:1.x.x, passport-strategy@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "passport-strategy@npm:1.0.0"
+  checksum: 10c0/cf4cd32e1bf2538a239651581292fbb91ccc83973cde47089f00d2014c24bed63d3e65af21da8ddef649a8896e089eb9c3ac9ca639f36c797654ae9ee4ed65e1
   languageName: node
   linkType: hard
 
