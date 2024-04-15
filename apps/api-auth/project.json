@@ -1,7 +1,7 @@
 {
-  "name": "auth",
+  "name": "api-auth",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/auth/src",
+  "sourceRoot": "apps/api-auth/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -9,14 +9,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "auth:build"
+        "buildTarget": "api-auth:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "auth:build:development"
+          "buildTarget": "api-auth:build:development"
         },
         "production": {
-          "buildTarget": "auth:build:production"
+          "buildTarget": "api-auth:build:production"
         }
       }
     }
