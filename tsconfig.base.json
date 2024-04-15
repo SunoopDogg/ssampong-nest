@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ssampong-nest/msa-runner": ["libs/msa-runner/src/index.ts"]
+      "@ssampong-nest/msa-runner": ["libs/msa-runner/src/index.ts"],
+      "@ssampong-nest/prisma-client": ["libs/prisma-client/src/index.ts"],
+      "@ssampong-nest/prisma-schema": ["libs/prisma-schema/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
