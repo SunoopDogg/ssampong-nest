@@ -2753,6 +2753,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     eslint: "npm:~8.57.0"
     eslint-config-prettier: "npm:^9.0.0"
+    express: "npm:^4.19.2"
     http-proxy-middleware: "npm:^3.0.0"
     jest: "npm:^29.4.1"
     jest-environment-node: "npm:^29.4.1"
@@ -5891,7 +5892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.19.2, express@npm:^4.17.3":
+"express@npm:4.19.2, express@npm:^4.17.3, express@npm:^4.19.2":
   version: 4.19.2
   resolution: "express@npm:4.19.2"
   dependencies:
