@@ -63,7 +63,7 @@ const updateGatewayEnv = (
 };
 
 const createCommand = (appList: string[]): string => {
-  let command = `yarn nx run-many --target=serve --projects=`;
+  let command = `yarn nx run-many --target=serve --parallel=${appList.length} --projects=`;
 
   appList.forEach((project) => {
     command += `${project},`;

@@ -56,7 +56,7 @@ var updateGatewayEnv = function (app, port, mapAppToPort) {
     fs.writeFileSync("apps/".concat(app, "/.env"), envConfigString.join('\n'));
 };
 var createCommand = function (appList) {
-    var command = "yarn nx run-many --target=serve --projects=";
+    var command = "yarn nx run-many --target=serve --parallel=".concat(appList.length, " --projects=");
     appList.forEach(function (project) {
         command += "".concat(project, ",");
     });
