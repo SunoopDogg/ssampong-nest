@@ -10,8 +10,15 @@
     "nx:run-many": "yarn nx run-many --target=serve --all --parallel",
     "nx:reset": "yarn nx reset",
     "nx:add:nest:app": "yarn nx generate @nx/nest:app",
+    "nx:add:nest:lib": "yarn nx generate @nx/nest:lib",
     "nx:add:js:lib": "yarn nx generate @nx/js:lib",
-    "nx:remove": "yarn nx generate remove"
+    "nx:remove": "yarn nx generate remove",
+    "db:pull": "yarn prisma db pull",
+    "db:push": "yarn prisma db push",
+    "db:build": "yarn prisma generate"
+  },
+  "prisma": {
+    "schema": "libs/prisma-schema/src/lib/prisma/schema.prisma"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.1",
@@ -33,12 +40,14 @@
     "@types/node": "~18.16.9",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
+    "dotenv": "^16.4.5",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "jest": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "nx": "18.2.3",
     "prettier": "^2.6.2",
+    "prisma": "^5.12.1",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "typescript": "~5.4.2",
@@ -52,10 +61,14 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.2",
+    "@prisma/client": "^5.12.1",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "http-proxy-middleware": "^3.0.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0"
