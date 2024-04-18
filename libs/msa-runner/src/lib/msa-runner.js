@@ -80,7 +80,7 @@ var runCommand = function (command) {
     });
 };
 var run = function () {
-    var port = 5000;
+    var port = parseInt(dotenv.parse(fs.readFileSync('.env'))['MSA_PORT_START']) || 5000;
     var masAppList = getMsaAppList();
     var mapProjectToPort = new Map();
     masAppList.forEach(function (app) {
@@ -97,7 +97,7 @@ var run = function () {
     var gateway = dotenv.parse(fs.readFileSync('.env'))['MSA_GATEWAY_APP'];
     if (!isEnvExist(gateway))
         createEnv(gateway);
-    updateGatewayEnv(gateway, 4000, mapProjectToPort);
+    updateGatewayEnv(gateway, parseInt(dotenv.parse(fs.readFileSync("apps/".concat(gateway, "/.env")))['MSA_GATEWAY_PORT']) || 4000, mapProjectToPort);
     var command = createCommand(__spreadArray([gateway], masAppList, true));
     runCommand(command);
 };
