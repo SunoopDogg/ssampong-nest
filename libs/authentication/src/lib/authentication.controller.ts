@@ -1,18 +1,20 @@
 import { Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { AppService } from './app.service';
+import { AuthenticationAppService } from './authentication.service';
 import { UserDto } from './dto/user.dto';
 
 import { Response } from 'express';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class AuthenticationController {
+  constructor(
+    private readonly authenticationService: AuthenticationAppService,
+  ) {}
 
   @Get()
   getData() {
-    return this.appService.getData();
+    return this.authenticationService.getData();
   }
 
   @Post('/login')
@@ -22,7 +24,7 @@ export class AppController {
     @Res({ passthrough: true })
     res: Response,
   ): Promise<{ accessToken: string }> {
-    const { accessToken } = await this.appService.login(req.user);
+    const { accessToken } = await this.authenticationService.login(req.user);
 
     res.setHeader('Authorization', `Bearer ${accessToken})`);
     res.cookie('access_token', accessToken, { httpOnly: true });
@@ -32,7 +34,7 @@ export class AppController {
 
   @Get('profile')
   @UseGuards(AuthGuard('jwt'))
-  async getProfile(@Request() req): Promise<UserDto> {
+  async getProfile(@Request() req: any): Promise<UserDto> {
     return req.user;
   }
 }

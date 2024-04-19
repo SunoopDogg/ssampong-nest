@@ -63,7 +63,7 @@ const updateGatewayEnv = (
 };
 
 const createCommand = (appList: string[]): string => {
-  let command = `yarn nx run-many --target=serve --projects=`;
+  let command = `yarn nx run-many --target=serve --parallel=${appList.length} --projects=`;
 
   appList.forEach((project) => {
     command += `${project},`;
@@ -95,7 +95,8 @@ const runCommand = (command: string): void => {
 };
 
 const run = (): void => {
-  let port = 5000;
+  let port =
+    parseInt(dotenv.parse(fs.readFileSync('.env'))['MSA_PORT_START']) || 5000;
 
   const masAppList = getMsaAppList();
   const mapProjectToPort = new Map<string, number>();
@@ -114,7 +115,13 @@ const run = (): void => {
 
   const gateway = dotenv.parse(fs.readFileSync('.env'))['MSA_GATEWAY_APP'];
   if (!isEnvExist(gateway)) createEnv(gateway);
-  updateGatewayEnv(gateway, 4000, mapProjectToPort);
+  updateGatewayEnv(
+    gateway,
+    parseInt(
+      dotenv.parse(fs.readFileSync(`apps/${gateway}/.env`))['MSA_GATEWAY_PORT'],
+    ) || 4000,
+    mapProjectToPort,
+  );
 
   const command = createCommand([gateway, ...masAppList]);
   runCommand(command);
