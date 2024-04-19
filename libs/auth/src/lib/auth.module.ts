@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { AuthenticationController } from './authentication.controller';
-import { AuthenticationAppService } from './authentication.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
@@ -18,8 +18,8 @@ import { PrismaClientModule } from '@ssampong-nest/prisma-client';
     PassportModule,
     PrismaClientModule,
   ],
-  controllers: [AuthenticationController],
-  providers: [AuthenticationAppService, LocalStrategy, JwtStrategy],
-  exports: [AuthenticationAppService],
+  controllers: [AuthController],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
-export class AuthenticationModule {}
+export class AuthModule {}

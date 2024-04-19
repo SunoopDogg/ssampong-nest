@@ -8,7 +8,7 @@ import { PrismaClientService } from '@ssampong-nest/prisma-client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class AuthenticationAppService {
+export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaClientService,
