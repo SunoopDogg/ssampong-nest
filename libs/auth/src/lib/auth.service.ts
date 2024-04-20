@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { JwtPayload } from './dto/jwt-payload.dto';
-import { UserDto } from './dto/user.dto';
+import { JwtPayload } from './interfaces/auth.interface';
+import { UserInterface, UserPayload } from './interfaces/user.interface';
 
 import { PrismaClientService } from '@ssampong-nest/prisma-client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class AuthenticationAppService {
+export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaClientService,
@@ -21,9 +21,12 @@ export class AuthenticationAppService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<Omit<UserDto, 'password'> | null> {
+  ): Promise<UserPayload | null> {
     const user = await this.prismaService.user.findUnique({
       where: { email },
+      include: {
+        roles: true,
+      },
     });
     if (user && bcrypt.compareSync(password, user.password)) {
       const { password, ...result } = user;
@@ -33,13 +36,26 @@ export class AuthenticationAppService {
     return null;
   }
 
-  async login(user: UserDto): Promise<{ accessToken: string }> {
+  async generateAccessToken(user: UserInterface): Promise<string> {
     const payload: JwtPayload = {
       email: user.email,
       username: user.name,
+      roles: user.roles.map((role) => role.name),
     };
-    return {
-      accessToken: this.jwtService.sign(payload),
+
+    return this.jwtService.sign(payload);
+  }
+
+  async generateRefreshToken(user: UserInterface): Promise<string> {
+    const payload: JwtPayload = {
+      email: user.email,
+      username: user.name,
+      roles: user.roles.map((role) => role.name),
     };
+
+    return this.jwtService.sign(payload, {
+      secret: process.env['JWT_REFRESH_SECRET'],
+      expiresIn: process.env['JWT_REFRESH_EXPIRES_IN'],
+    });
   }
 }
