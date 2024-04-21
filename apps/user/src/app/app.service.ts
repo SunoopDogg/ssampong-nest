@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto, UserDto } from './dto/user.dto';
+import { CreateUserPayload, UserInterface } from './interfaces/user.interface';
 
 import { PrismaClientService } from '@ssampong-nest/prisma-client';
 import * as bcrypt from 'bcrypt';
@@ -13,13 +13,20 @@ export class AppService {
     return { message: 'Hello API' };
   }
 
-  async create(createUserDto: CreateUserDto): Promise<UserDto> {
+  async create(payload: CreateUserPayload): Promise<UserInterface> {
     const saltOrRounds = 10;
-    const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
-    createUserDto.password = hash;
+    const hash = await bcrypt.hash(payload.password, saltOrRounds);
+    payload.password = hash;
 
-    return await this.prismaService.user.create({
-      data: createUserDto,
+    return this.prismaService.user.create({
+      data: {
+        email: payload.email,
+        password: payload.password,
+        name: payload.name,
+        roles: {
+          connect: payload.roles.map((role) => ({ name: role })),
+        },
+      },
     });
   }
 }

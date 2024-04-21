@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { JwtPayload } from './interfaces/auth.interface';
-import { UserInterface, UserPayload } from './interfaces/user.interface';
+import { JwtPayload } from '../interfaces/auth.interface';
+import { UserInterface, UserPayload } from '../interfaces/user.interface';
 
 import { PrismaClientService } from '@ssampong-nest/prisma-client';
 import * as bcrypt from 'bcrypt';
