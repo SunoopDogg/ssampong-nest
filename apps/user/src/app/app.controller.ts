@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { AppService } from './app.service';
-import { CreateUserDto, UserDto } from './dto/user.dto';
+import { CreateUserPayload, UserInterface } from './interfaces/user.interface';
+
+import { JwtAuthGuard, Role, Roles } from '@ssampong-nest/auth';
 
 @Controller()
 export class AppController {
@@ -13,7 +15,11 @@ export class AppController {
   }
 
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard)
+  async register(
+    @Body() createUserDto: CreateUserPayload,
+  ): Promise<UserInterface> {
     return await this.appService.create(createUserDto);
   }
 }
