@@ -17,9 +17,7 @@ export class AppController {
   @Post('register')
   @Roles(Role.ADMIN)
   @UseGuards(JwtAuthGuard)
-  async register(
-    @Body() createUserDto: CreateUserPayload,
-  ): Promise<UserInterface> {
-    return await this.appService.create(createUserDto);
+  async register(@Body() payload: CreateUserPayload): Promise<UserInterface> {
+    return await this.appService.create(payload);
   }
 }
