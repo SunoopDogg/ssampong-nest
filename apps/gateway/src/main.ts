@@ -15,14 +15,22 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
 
+  const whiteList = process.env.WHITE_LIST || '';
+  const whiteListArray = whiteList.split(', ');
+
+  app.enableCors({
+    origin: whiteListArray,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  });
+
   const msaAppList = process.env.MSA_APP_LIST || '';
   const msaPortList = process.env.MSA_PORT_LIST || '';
 
   const msaAppListArray = msaAppList.split(', ');
   const msaPortListArray = msaPortList.split(', ');
-
-  const whiteList = process.env.WHITE_LIST || '';
-  const whiteListArray = whiteList.split(', ');
 
   msaAppListArray.forEach((msaApp, index) => {
     app.use(
@@ -37,14 +45,6 @@ async function bootstrap() {
         },
       }),
     );
-  });
-
-  app.enableCors({
-    origin: whiteListArray,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    credentials: true,
   });
 
   await app.listen(port);
