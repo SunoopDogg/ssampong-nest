@@ -6,5 +6,5 @@ export interface JwtSign {
 export interface JwtPayload {
   email: string;
   username: string;
-  roles: string[];
+  roles: { name: string }[];
 }

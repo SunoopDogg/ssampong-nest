@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { JwtPayload } from '../interfaces/auth.interface';
-import { UserInterface, UserPayload } from '../interfaces/user.interface';
 
 import { PrismaClientService } from '@ssampong-nest/prisma-client';
 import * as bcrypt from 'bcrypt';
@@ -18,10 +17,7 @@ export class AuthService {
     return { message: 'Hello API' };
   }
 
-  async validateUser(
-    email: string,
-    password: string,
-  ): Promise<UserPayload | null> {
+  async validateUser(email: string, password: string): Promise<unknown | null> {
     const user = await this.prismaService.user.findUnique({
       where: { email },
       include: {
@@ -36,21 +32,21 @@ export class AuthService {
     return null;
   }
 
-  async generateAccessToken(user: UserInterface): Promise<string> {
+  async generateAccessToken(user: JwtPayload): Promise<string> {
     const payload: JwtPayload = {
       email: user.email,
-      username: user.name,
-      roles: user.roles.map((role) => role.name),
+      username: user.username,
+      roles: user.roles,
     };
 
     return this.jwtService.sign(payload);
   }
 
-  async generateRefreshToken(user: UserInterface): Promise<string> {
+  async generateRefreshToken(user: JwtPayload): Promise<string> {
     const payload: JwtPayload = {
       email: user.email,
-      username: user.name,
-      roles: user.roles.map((role) => role.name),
+      username: user.username,
+      roles: user.roles,
     };
 
     return this.jwtService.sign(payload, {

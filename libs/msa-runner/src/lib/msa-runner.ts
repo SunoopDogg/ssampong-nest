@@ -96,7 +96,7 @@ const runCommand = (command: string): void => {
 
 const run = (): void => {
   let port =
-    parseInt(dotenv.parse(fs.readFileSync('.env'))['MSA_PORT_START']) || 5000;
+    Number(dotenv.parse(fs.readFileSync('.env'))['MSA_APP_START_PORT']) || 5000;
 
   const masAppList = getMsaAppList();
   const mapProjectToPort = new Map<string, number>();
@@ -117,9 +117,7 @@ const run = (): void => {
   if (!isEnvExist(gateway)) createEnv(gateway);
   updateGatewayEnv(
     gateway,
-    parseInt(
-      dotenv.parse(fs.readFileSync(`apps/${gateway}/.env`))['MSA_GATEWAY_PORT'],
-    ) || 4000,
+    Number(dotenv.parse(fs.readFileSync(`.env`))['MSA_GATEWAY_PORT']) || 4000,
     mapProjectToPort,
   );
 
