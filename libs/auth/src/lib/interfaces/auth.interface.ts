@@ -8,3 +8,10 @@ export interface JwtPayload {
   username: string;
   roles: { name: string }[];
 }
+
+export interface UserInterface {
+  id: string;
+  email: string;
+  username: string;
+  roles: { name: string }[];
+}
