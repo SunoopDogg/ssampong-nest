@@ -4,6 +4,7 @@
  */
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 
@@ -45,6 +46,16 @@ async function bootstrap() {
         },
       }),
     );
+  });
+
+  const config = new DocumentBuilder()
+    .setTitle('Ssampong API')
+    .setVersion('1.0')
+    .addTag('ssampong')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/swagger', app, document, {
+    useGlobalPrefix: true,
   });
 
   await app.listen(port);
