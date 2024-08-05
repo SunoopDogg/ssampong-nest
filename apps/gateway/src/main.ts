@@ -33,20 +33,26 @@ async function bootstrap() {
   const msaAppListArray = msaAppList.split(', ');
   const msaPortListArray = msaPortList.split(', ');
 
-  msaAppListArray.forEach((msaApp, index) => {
-    app.use(
-      `/${globalPrefix}/${msaApp}`,
-      createProxyMiddleware({
-        target: `http://localhost:${msaPortListArray[index]}/${globalPrefix}`,
-        changeOrigin: true,
-        pathRewrite: { [`^/${globalPrefix}/${msaApp}`]: '' },
-        onProxyRes: (proxyRes, req, res) => {
-          if (whiteListArray.includes(req.headers.origin))
-            res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-        },
-      }),
-    );
-  });
+  if (msaAppList !== '' && msaPortList !== '')
+    msaAppListArray.forEach((msaApp, index) => {
+      app.use(
+        `/${globalPrefix}/${msaApp}`,
+        createProxyMiddleware({
+          target: `http://localhost:${msaPortListArray[index]}/${globalPrefix}`,
+          changeOrigin: true,
+          pathRewrite: { [`^/${globalPrefix}/${msaApp}`]: '' },
+          on: {
+            proxyRes: (proxyRes, req, res) => {
+              if (whiteListArray.includes(req.headers.origin))
+                res.setHeader(
+                  'Access-Control-Allow-Origin',
+                  req.headers.origin,
+                );
+            },
+          },
+        }),
+      );
+    });
 
   const config = new DocumentBuilder()
     .setTitle('Ssampong API')
