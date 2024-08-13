@@ -7,6 +7,7 @@ tmp
 
 # dependencies
 node_modules
+.yarn/install-state.gz
 
 # yarn
 .pnp.*
@@ -49,6 +50,7 @@ testem.log
 Thumbs.db
 
 .nx/cache
+.nx/workspace-data
 
 # dotenv
 .env*

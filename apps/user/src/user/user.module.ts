@@ -4,10 +4,11 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 import { AuthModule } from '@ssampong-nest/auth';
+import { LogModule } from '@ssampong-nest/log';
 import { PrismaClientModule } from '@ssampong-nest/prisma-client';
 
 @Module({
-  imports: [AuthModule, PrismaClientModule],
+  imports: [AuthModule, PrismaClientModule, LogModule],
   controllers: [UserController],
   providers: [UserService],
 })
